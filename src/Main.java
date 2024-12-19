@@ -102,7 +102,7 @@ class MasterMind {
         }
     }
 
-    private static void convertToTrue(String randomArray[] , boolean[] randomUsed , boolean[] readUsed , String str){
+    private static void convertToTrue(String randomArray[] , boolean[] randomUsed , String str){
         for (int i = 0; i < randomArray.length; i++) {
             if (randomArray[i].equals(str)) {
                 randomUsed[i] = true;
@@ -116,12 +116,10 @@ class MasterMind {
         int length = readArray.length;
 
         boolean[] randomUsed = new boolean[length];
-        boolean[] readUsed = new boolean[length];
 
         for (int i = 0; i < length; i++) {
             if (randomArray[i].equals(readArray[i])) {
                 randomUsed[i] = true;
-                readUsed[i] = true;
             }
         }
 
@@ -129,7 +127,7 @@ class MasterMind {
             for (int j = 0; j < length; j++) {
                 if (readArray[i].equals(randomArray[j]) && !randomUsed[j]) {
                     numsOfWCircle++;
-                    convertToTrue( randomArray ,  randomUsed ,  readUsed ,  readArray[i]);
+                    convertToTrue( randomArray ,  randomUsed ,  readArray[i]);
                     break;
                 }
             }
@@ -156,6 +154,7 @@ class MasterMind {
     }
 
     public static void startGame() {
+        boolean restart = false ;
         int n = readTheDifficulty();
         n = (n == 1 ? 3 : n == 2 ? 4 : 5);
         String randomArray[] = fillArrayWithRandom(n);
@@ -181,19 +180,43 @@ class MasterMind {
                 }
             }
             if (numsOfBlackCircle(randomArray, readArray)) {
-                return;
+                restart = true ;
+                break;
             } else {
                 System.out.println("White Circles : " + numsOfWhiteCircle(randomArray, readArray ));
             }
         }
-        System.out.println("                            =============================================");
-        System.out.println("                                           Game Over");
-        System.out.println("                            =============================================");
-        System.out.println("The Circles Were : \n");
-        System.out.println("-----------------------------------------------------------------------------");
-        for (int i = 0; i < randomArray.length; i++) {
-            System.out.print("|    " + randomArray[i] + "    |");
+        if (!restart) {
+            System.out.println("                            =============================================");
+            System.out.println("                                             Game Over");
+            System.out.println("                            =============================================");
+            System.out.println("The Circles Were : \n");
+            System.out.println("-----------------------------------------------------------------------------");
+            for (int i = 0; i < randomArray.length; i++) {
+                System.out.print("|    " + randomArray[i] + "    |");
+            }
+            System.out.println("\n-----------------------------------------------------------------------------");
         }
-        System.out.println("\n-----------------------------------------------------------------------------");
+        Scanner in = new Scanner (System.in);
+        String toContinue ;
+        do {
+            System.out.print("Do you want to play again ? , [Y/N] : ");
+            toContinue = in.next().toLowerCase();
+            if (!toContinue.equals("y") && !toContinue.equals("n")) {
+                System.out.println("Invalid Input , Please Try Again!");
+            }else if (toContinue.equals("n")) {
+                showTheEnd();
+                break;
+            }
+            else {
+                startGame();
+            }
+        } while (!toContinue.equals("y") && !toContinue.equals("n"));
+    }
+    static void showTheEnd(){
+        System.out.println("===========================================================");
+        System.out.println("                     End Of The Game");
+        System.out.println("===========================================================");
+
     }
 }
