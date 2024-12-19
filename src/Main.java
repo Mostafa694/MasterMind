@@ -160,6 +160,7 @@ class MasterMind {
         String randomArray[] = fillArrayWithRandom(n);
 // this block of code for me only to check that the code works well
         {
+            System.out.println("This Output only for checking , in the real game it will be deleted");
             for (int i = 0; i < randomArray.length; i++) {
                 System.out.println(randomArray[i]);
             }
